@@ -84,7 +84,7 @@ You may refer to [INSTALL.md](docs/INSTALL.md) for the installation of `3DTrans`
 
 ## Getting Started
 
-* Please refer to [Readme for Datasets](docs/GETTING_STARTED_DB.md) to prepare the dataset and convert the data into the 3DTrans format. Besides, 3DTrans supports the reading and writing data from **Ceph**, please refer to [Readme for Datasets](docs/GETTING_STARTED_DB.md) for more details.
+* Please refer to [Readme for Datasets](docs/GETTING_STARTED_DB.md) to prepare the dataset and convert the data into the 3DTrans format. Besides, 3DTrans supports the reading and writing data from **Ceph Petrel-OSS**, please refer to [Readme for Datasets](docs/GETTING_STARTED_DB.md) for more details.
 
 * Please refer to [Readme for UDA](docs/GETTING_STARTED_UDA.md) for understanding the problem definition of UDA and performing the UDA adaptation process.
 
