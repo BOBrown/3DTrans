@@ -1,0 +1,25 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: 3DTrans
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Bo
+    family-names: Zhang
+    email: bo.zhangzx@gmail.com
+    affiliation: Shanghai AI Lab
+    orcid: 'https://orcid.org/0000-0001-8052-782X'
+  - given-names: Jiakang
+    family-names: Yuan
+    email: jkyuan22@m.fudan.edu.cn
+    affiliation: Fudan University
+repository-code: 'https://github.com/BOBrown/3DTrans'
+abstract: >+
+  An open-source codebase for exploring the Autonomous
+  Driving-oriented Transfer Learning Techniques
+
+license: Apache-2.0
