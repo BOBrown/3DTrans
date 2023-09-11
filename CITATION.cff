@@ -2,7 +2,9 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: 3DTrans: An Open-source Codebase for Continuous Learning towards Autonomous Driving Task
+title: >-
+  3DTrans: An Open-source Codebase for Continuous Learning
+  towards Autonomous Driving Task
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
@@ -15,11 +17,17 @@ authors:
     orcid: 'https://orcid.org/0000-0001-8052-782X'
   - given-names: Jiakang
     family-names: Yuan
+    orcid: 'https://orcid.org/0009-0006-6651-4356'
     email: jkyuan22@m.fudan.edu.cn
     affiliation: Fudan University
-    orcid: 'https://orcid.org/0009-0006-6651-4356'
-repository-code: 'https://github.com/BOBrown/3DTrans'
+  - given-names: Xiangchao
+    family-names: Yan
+    email: yanxiangchao@pjlab.org.cn
+    affiliation: Shanghai AI Lab
+repository-code: 'https://github.com/BOBrown/CCDA_LGFA'
 abstract: >+
-  An Open-source Codebase for exploring Continuous-learning/Pre-training-oriented Autonomous Driving Task
+  3DTrans includes Transfer Learning Techniques and Scalable
+  Pre-training Techniques for tackling the continuous
+  learning issue of autonomous driving 
 
 license: Apache-2.0
