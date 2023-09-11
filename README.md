@@ -1,83 +1,71 @@
 [![arXiv](https://img.shields.io/badge/arXiv-2303.06880-b31b1b.svg)](https://arxiv.org/abs/2303.06880)
 [![arXiv](https://img.shields.io/badge/arXiv-2303.05886-b31b1b.svg)](https://arxiv.org/abs/2303.05886)
+[![arXiv](https://img.shields.io/badge/arXiv-2303.05886-b31b1b.svg)](https://arxiv.org/abs/2306.00612)
 [![GitHub issues](https://img.shields.io/github/issues/PJLab-ADG/3DTrans)](https://github.com/PJLab-ADG/3DTrans/issues)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/PJLab-ADG/3DTrans/pulls)
 
 
-# 3DTrans: Autonomous Driving Transfer Learning Codebase
+# 3DTrans: An Open-source Codebase for Continuous Learning towards Autonomous Driving Task
 
-`3DTrans` is a lightweight, simple, self-contained open-source codebase for exploring the **Autonomous Driving-oriented Transfer Learning Techniques**, which mainly consists of **four** functions at present:
+`3DTrans` includes **Transfer Learning Techniques** and **Scablable Pre-training Techniques** for tackling the continuous learning issue on autonomous driving as follows.
+1) We implement the **Transfer Learning Techniques** consisting of **four** functions:
 * Unsupervised Domain Adaptation (UDA) for 3D Point Clouds
 * Active Domain Adaptation (ADA) for 3D Point Clouds
 * Semi-Supervised Domain Adaptation (SSDA) for 3D Point Clouds
 * Multi-dateset Domain Fusion (MDF) for 3D Point Clouds
 
-**This project is developed and maintained by Autonomous Driving Group [at] [Shanghai AI Laboratory](https://www.shlab.org.cn/) (ADLab).**
+2) We implement the **Scablable Pre-training Techniques** which can continuously enhance the model performance for the downstream tasks, as more pre-training data are fed into our pre-training network:
+* AD-PT: Autonomous Driving Pre-Training with Large-scale Point Cloud Dataset
+* SPOT: Scalable 3D Pre-training via Occupancy Prediction for Autonomous Driving
+
+
+**Team Home**:
+- A Team Home for Member Information and Profile, [Project Link](https://bobrown.github.io/Team_3DTrans.github.io/)
+
+<!-- **This project is developed and maintained by Autonomous Driving Group [at] [Shanghai AI Laboratory](https://www.shlab.org.cn/) (ADLab).** -->
 
 ## Overview
-- [Update News](#fire-news-fire)
-- [TODO List](#muscle-todo-list-muscle)
-- [3DTrans Framework Introduction](#3dtrans-framework-introduction)
-  - [What does `3DTrans` Codebase do?](#what-does-3dtrans-codebase-do)
+- [News](#news-fire)
 - [Installation for 3DTrans](#installation-for-3dtrans)
 - [Getting Started](#getting-started)
-- [Model Zoo:](#model-zoo)
-  - [UDA Results:](#uda-results)
-  - [ADA Results:](#ada-results)
-  - [SSDA Results:](#ssda-results)
-  - [MDF Results:](#mdf-results)
-- [Point Cloud Pre-training for Autonomous Driving Task](#point-cloud-pre-training-for-autonomous-driving-task)
+- [Transfer Learning Techniques@3DTrans](#3dtrans-autonomous-driving-transfer-learning-codebase) 
+  - [Model Zoo:](#model-zoo)
+    - [UDA Results](#uda-results)
+    - [ADA Results](#ada-results)
+    - [SSDA Results](#ssda-results)
+    - [MDF Results](#mdf-results)
+- [Scablable Pre-training Techniques@3DTrans](#getting-started)
+  - [Model Zoo:](#model-zoo)
+    - [AD-PT Results](#ad-pt-results)
+    - [ReSimAD Results](#resimad-results)
 - [Visualization Tools for 3DTrans](#visualization-tools-for-3dtrans)
+- [3DTrans Framework Introduction](docs/GETTING_STARTED_3DTrans.md) 
 - [Acknowledge](#acknowledge)
 - [Citation](#citation)
 
 
-&ensp;
-## :fire: News :fire:
-- [x] Two papers developed using our `3DTrans` were accepted by CVPR-2023: [Uni3D](https://arxiv.org/abs/2303.06880) and [Bi3D](https://arxiv.org/abs/2303.05886). (updated on Mar. 2023).
+## News :fire:
+- [x] We will release the Reconstruction-Simulation Dataset obtained using the [ReSimAD]() method (updated on Sep. 2023).
+- [x] We will release all codes of AD-PT, see [AD-PT](docs/GETTING_STARTED_PRETRAIN.md) for all details (updated on Sep. 2023).
+- [x] We released the AD-PT pre-trained checkpoints, see <a href=./docs/GETTING_STARTED_PRETRAIN.md#once-ckpt>AD-PT pre-trained checkpoints</a> for pre-trained checkpoints (updated on Aug. 2023).
+- [x]  Based on `3DTrans`, we achieved significant performance gains on a series of downstream perception benchmarks including Waymo, nuScenes, and KITTI, under different baseline models like PV-RCNN++, SECOND, CenterPoint, PV-RCNN (updated on Jun. 2023).
 - [x] Our `3DTrans` supported the Semi-Supervised Domain Adaptation (SSDA) for 3D Object Detection (updated on Nov. 2022).
 - [x] Our `3DTrans` supported the Active Domain Adaptation (ADA) of 3D Object Detection for achieving a good trade-off between high performance and annotation cost (updated on Oct. 2022).
 - [x] Our `3DTrans` supported several typical transfer learning techniques (such as [TQS](https://openaccess.thecvf.com/content/CVPR2021/papers/Fu_Transferable_Query_Selection_for_Active_Domain_Adaptation_CVPR_2021_paper.pdf), [CLUE](https://arxiv.org/abs/2010.08666), [SN](https://arxiv.org/abs/2005.08139), [ST3D](https://arxiv.org/abs/2103.05346), [Pseudo-labeling](https://arxiv.org/abs/2103.05346), [SESS](https://arxiv.org/abs/1912.11803), and [Mean-Teacher](https://arxiv.org/abs/1703.01780)) for autonomous driving-related model adaptation and transfer.
 - [x] Our `3DTrans` supported the Multi-domain Dataset Fusion (MDF) of 3D Object Detection for enabling the existing 3D models to effectively learn from multiple off-the-shelf 3D datasets (updated on Sep. 2022).
 - [x] Our `3DTrans` supported the Unsupervised Domain Adaptation (UDA) of 3D Object Detection for deploying a well-trained source model to an unlabeled target domain (updated on July 2022).
-- [x] The self-learning for unlabeled point clouds and new data augmentation operations (such as Object Scaling (ROS) and Size Normalization (SN)) has been supported for `3DTrans`, which can achieve a performance boost based on the dataset prior of [object-size statistics](docs/STATISTICAL_RESULTS.md)
-- [x] Our `3DTrans` was initialized based on the `OpenPCD-v0.5.2` version (updated on May 2022).
+- [x] We calculate the distribution of the object-size for each public AD dataset in [object-size statistics](docs/STATISTICAL_RESULTS.md)
 
-:rocket: We are actively updating this repository currently, and more **cross-dataset fusion solutions** (including domain attention and mixture-of-experts) and more **low-cost data sampling strategy** will be supported by 3DTrans in the furture, which aims to boost the generalization ability and adaptability of the existing state-of-the-art models. :rocket:
+<!-- :rocket: We are actively updating this repository currently, and more **cross-dataset fusion solutions** (including domain attention and mixture-of-experts) and more **low-cost data sampling strategy** will be supported by 3DTrans in the furture, which aims to boost the generalization ability and adaptability of the existing state-of-the-art models. :rocket: -->
 
 We expect this repository will inspire the research of 3D model generalization since it will push the limits of perceptual performance. :tokyo_tower:
 
-### :muscle: TODO List :muscle:
+<!-- ### :muscle: TODO List :muscle:
 
 - [ ] For ADA module, need to add the sequence-level data selection policy (to meet the requirement of practical annotation process).
-- [ ] Provide experimental findings for the AD-related 3D pre-training (**Our ongoing research**, which currently achieves promising pre-training results towards downstream tasks by exploiting large-scale unlabeled data in ONCE dataset using `3DTrans`).
+- [x] Provide experimental findings for the AD-related 3D pre-training (**Our ongoing research**, which currently achieves promising pre-training results towards downstream tasks by exploiting large-scale unlabeled data in ONCE dataset using `3DTrans`). -->
 
 
-&ensp;
-## 3DTrans Framework Introduction
-
-### What does `3DTrans` Codebase do?
-
-- **Rapid Target-domain Adaptation**: `3DTrans` can boost the 3D perception model's adaptability for an unseen domain only using unlabeled data. For example, [ST3D](https://arxiv.org/abs/2103.05346) supported by `3DTrans` repository achieves a new state-of-the-art model transfer performance for many adaptation tasks, further boosting the transferability of detection models. Besides, `3DTrans` develops many new UDA techniques to solve different types of domain shifts (such as LiDAR-induced shifts or object-size-induced shifts), which includes Pre-SN, Post-SN, and range-map downsampling retraining.
-
-- **Annotation-saving Target-domain Transfer**: `3DTrans` can select the most informative subset of an unseen domain and label them at a minimum cost. For example, `3DTrans` develops the [Bi3D](https://arxiv.org/abs/2303.05886), which selects partial-yet-important target data and labels them at a minimum cost, to achieve a good trade-off between high performance and low annotation cost. Besides, `3DTrans` has integrated several typical transfer learning techniques into the 3D object detection pipeline. For example, we integrate the [TQS](https://openaccess.thecvf.com/content/CVPR2021/papers/Fu_Transferable_Query_Selection_for_Active_Domain_Adaptation_CVPR_2021_paper.pdf), [CLUE](https://arxiv.org/abs/2010.08666), [SN](https://arxiv.org/abs/2005.08139), [ST3D](https://arxiv.org/abs/2103.05346), [Pseudo-labeling](https://arxiv.org/abs/2103.05346), [SESS](https://arxiv.org/abs/1912.11803), and [Mean-Teacher](https://arxiv.org/abs/1703.01780) for supporting autonomous driving-related model transfer.
-
-- **Joint Training on Multiple 3D Datasets**: `3DTrans` can perform the multi-dataset 3D object detection task. For example, `3DTrans` develops the [Uni3D](https://arxiv.org/abs/2303.06880) for multi-dataset 3D object detection, which enables the current 3D baseline models to effectively learn from multiple off-the-shelf 3D datasets, boosting the reusability of 3D data from different autonomous driving manufacturers.
-
-- **Multi-dataset Support**: `3DTrans` provides a unified interface of dataloader, data augmentor, and data processor for multiple public benchmarks, including Waymo, nuScenes, ONCE, Lyft, and KITTI, etc, which is beneficial to study the transferability and generality of 3D perception models among different datasets. Besides, in order to eliminate the domain gaps between different manufacturers and obtain generalizable representations, `3DTrans` has integrated typical unlabeled pre-training techniques for giving a better parameter initialization of the current 3D baseline models. For example, we integrate the [PointContrast](https://arxiv.org/abs/2007.10985) and [SESS](https://arxiv.org/abs/1912.11803) to support point cloud-based pre-training task.
-
-- **Extensibility for Multiple Models**: `3DTrans` makes the baseline model have the ability of cross-domain/dataset safe transfer and multi-dataset joint training. Without making major changes of the code and 3D model structure, a single-dataset 3D baseline model can be successfully adapted to an unseen domain or dataset by using our `3DTrans`.
-
-- `3DTrans` is developed based on [`OpenPCDet`](https://github.com/open-mmlab/OpenPCDet) codebase, which can be easily integrated with the models developing using `OpenPCDet` repository. Thanks for their valuable open-sourcing!
-
-
-&ensp;
-<p align="center">
-  <img src="docs/3dtrans.png" width="100%">
-</p>
-
-
-&ensp;
 ## Installation for 3DTrans
 
 You may refer to [INSTALL.md](docs/INSTALL.md) for the installation of `3DTrans`.
@@ -94,9 +82,10 @@ You may refer to [INSTALL.md](docs/INSTALL.md) for the installation of `3DTrans`
 
 * Please refer to [Readme for MDF](docs/GETTING_STARTED_MDF.md) for understanding the problem definition of MDF and performing the MDF joint-training process.
 
+- Please refer to [Readme for Scalable Pre-training](docs/GETTING_STARTED_PRETRAIN.md) for starting the journey of 3D perception model pre-training.
 
-&ensp;
-## Model Zoo: 
+
+## Model Zoo
 
 We could not provide the Waymo-related pretrained models due to [Waymo Dataset License Agreement](https://waymo.com/open/terms/), but you could easily achieve similar performance by training with the corresponding configs.
 
@@ -151,7 +140,6 @@ Here, we report the Waymo-to-KITTI adaptation results using the BEV/3D AP perfor
 ### SSDA Results:
 
 We report the target domain results on Waymo-to-nuScenes adaptation using the BEV/3D AP performance as the evaluation metric, and Waymo-to-ONCE adaptation using ONCE evaluation metric. Please refer to [Readme for SSDA](docs/GETTING_STARTED_SSDA.md) for experimental results of more cross-domain settings.
-* For Waymo-to-nuScenes adaptation, we employ 4 NVIDIA A100 GPUs for model training. 
 * The domain adaptation time is measured with 4 NVIDIA A100 GPUs and PyTorch 1.8.1.
 * For Waymo dataset training, we train the model using 20% data.
 * second_5%_FT denotes that we use 5% nuScenes training data to fine-tune the Second model.
@@ -221,108 +209,87 @@ Here, we report the Waymo-and-nuScenes consolidation results. The models are joi
 | [PV-RCNN++-DT](./tools/cfgs/MDF/waymo_nusc/waymo_nusc_pvplus_feat_3_domain_attention.yaml) | Domain Attention | 68.51 / 68.05 |  69.81 / 63.58  |  64.39 / 63.43  | 62.33 / 44.16  |  33.44 / 26.94 | 21.64 / 18.52 |
 
 
-<!-- &ensp;
 &ensp;
-## Auto-labeling for ONCE
-- Here, we provide the pseudo-label results for [Small Split](), [Small Split for Vehicle and Cyclist]() and [Medium Split]() of ONCE dataset, which includes 70 sequences (100k scenes) and 321 sequences (500k scenes), respectively.
+### AD-PT Results
 
-- We annotate the Small Split and Medium Split of ONCE dataset using the Vehicle, Pedestrian, and Cyclist class definition.
-
-- Please refer to [Auto-labeling for ONCE](docs/ONCE_AUTO_LABELING.md) for the detailed process of starting the auto-labeling for ONCE data.
-
-* PS with Pretraining denotes that we employ the [Pretraining ckpt]() and [Pseudo-labeling process](tools/cfgs/once_models/sup_models/inference/pv_rcnn_plus_anchor_vehicle_cyclist_inference_unlabeled_M.yaml) to generate the pseudo-labels for unlabeled ONCE data, and fine-tune the baseline model on the pseudo-labeled data. Please refer to [Auto-labeling for ONCE Data](#auto-labeling-for-once) for more details.
-
-|                                             |  Training ONCE Data | Methods | Vehicle@AP  | Pedestrian@AP  | Cyclist@AP  | download | 
-|------------------------|---------------------------------:|:----------:|:----------:|:-------:|:-------:|:---------:|
-| [Centerpoint_Pede](tools/cfgs/once_models/sup_models/centerpoint_pede_0075.yaml) |  Labeled (4K) |  Train from scracth | - |   |  - | - |
-| [Centerpoint_Pede](tools/cfgs/once_models/sup_models/centerpoint_pede_0075.yaml) |  Labeled (4K) |  [Waymo Pre-training]() | - |  49.14  |  - | - |
-| [Centerpoint_Pede](tools/cfgs/once_models/sup_models/centerpoint_pede_0075.yaml) |  Small Dataset (100K) | [PS with Pretraining]() | - |  56.01  |  - | - |
-| [PV-RCNN++](tools/cfgs/once_models/sup_models/pv_rcnn_plus_anchor_3CLS.yaml) |  Labeled (4K) | Train from scracth | 79.78 |  35.91  |  63.18 | - |
-| [PV-RCNN++](tools/cfgs/once_models/semi_learning_models/mt_pv_rcnn_plus_anchor_3CLS_small.yaml) |  Small Dataset (100K) | SESS | 80.02 |   46.24 |  66.41 | - |
-| [PV-RCNN++](tools/cfgs/once_models/sup_models/pv_rcnn_plus_anchor_vehicle_pede_cyclist_cat_12.5.yaml) |  [Small Dataset (100K)]() | [PS with Pretraining]() | 82.15 |  49.13 |  68.95 | - |
-| [PV-RCNN++](tools/cfgs/once_models/sup_models/pv_rcnn_plus_anchor_vehicle_pede_cyclist_cat_R1_M.yaml) |  [Medium Dataset (500K)]() | [PS with Pretraining]() | - |  - |  - |  -  |
-| [PV-RCNN++_vehi_cyc](tools/cfgs/once_models/sup_models/pv_rcnn_plus_anchor_vehicle_cyclist_cat.yaml) |  [Small Dataset (100K)]() | [PS with Pretraining]() | 82.50 |  - |  71.19 | -  | -->
+<!-- Based on our research progress on the cross-domain adaptation of multiple autonomous driving datasets, we can utilize the **multi-source datasets** for performing the pre-training task. Here, we present several unsupervised and self-supervised pre-training implementations (including [PointContrast](https://arxiv.org/abs/2007.10985)). -->
 
 
-&ensp;
-## Point Cloud Pre-training for Autonomous Driving Task
+### ReSimAD Results
 
-Based on our research progress on the cross-domain adaptation of multiple autonomous driving datasets, we can utilize the **multi-source datasets** for performing the pre-training task. Here, we present several unsupervised and self-supervised pre-training implementations (including [PointContrast](https://arxiv.org/abs/2007.10985)).
-
-- Please refer to [Readme for point cloud pre-training](docs/GETTING_STARTED_PRETRAIN.md) for starting the journey of 3D perception model pre-training.
-
-- We are actively exploring the possibility of boosting the 3D model generalization by means of ONCE dataset,  The powerful pre-training models and checkpoints are coming soon !! :muscle: :muscle:
+We report the **zero-shot** cross-dataset (Waymo-to-nuScenes) adaptation results using the BEV/3D AP performance as the evaluation metric for a fair comparison. Please refer to [ReSimAD]() for more details.
 
 
-&ensp;
+|              Methods                 | training time | Adaptation | Car@R40    |  Ckpt |
+|---------------------------------------------|-------------:|:-----------:|:------------:|---------------:|
+[PV-RCNN](./tools/cfgs/DA/waymo_nusc/source_only/pvrcnn_old_anchor_nusc.yaml) | ~23 hours| Source-only | 31.02 / 17.75 |  Not Avaliable (Waymo License) |
+[PV-RCNN](./tools/cfgs/DA/waymo_nusc/pvrcnn_st3d_feat_3.yaml) | ~8 hours| ST3D | 36.42 / 22.99 | - | 
+[PV-RCNN](./tools/cfgs/ReSimAD/nuscenes/pvrcnn_nuScenes_ReSimAD.yaml) | ~8 hours| **ReSimAD** | 37.85 / 21.33 | [ReSimAD_ckpt](https://drive.google.com/file/d/18zMP2h11Xxl2fnDW_bWI9-FHb-9F6Nks/view?usp=sharing) |
+[PV-RCNN++](./tools/cfgs/DA/waymo_nusc/source_only/pv_rcnn_plus_feat_3_vehi.yaml) | ~20 hours| Source-only | 29.93 / 18.77 |  Not Avaliable (Waymo License) | 
+[PV-RCNN++](./tools/cfgs/DA/waymo_nusc/pv_rcnn_plus_st3d_feat_3.yaml) | ~2.2 hours| ST3D |   34.68 / 17.17   | - |
+[PV-RCNN++](./tools/cfgs/ReSimAD/nuscenes/pvrcnn_plus_nuScenes_ReSimAD.yaml) | ~8 hours| **ReSimAD** | 40.73 / 23.72 | [ReSimAD_ckpt](https://drive.google.com/file/d/1_tnp-Byu8a1_o78V1JUxmD_m6vuRfV3p/view?usp=sharing) |
+
+
 ## Visualization Tools for 3DTrans
 
 - Our `3DTrans` supports the sequence-level visualization function [Quick Sequence Demo](docs/QUICK_SEQUENCE_DEMO.md) to continuously display the prediction results of ground truth of a selected scene.
-<p align="center">
-  <img src="docs/sequence_demo.gif" width="70%">
-</p>
 
+- **Visualization Demo**: 
+  - [Waymo Sequence-level Visualization Demo1](docs/seq_demo_waymo_bev.gif)
+  - [Waymo Sequence-level Visualization Demo2](docs/seq_demo_waymo_fp.gif)
+  - [nuScenes Sequence-level Visualization Demo](docs/seq_demo_nusc.gif)
+  - [ONCE Sequence-level Visualization Demo](docs/seq_demo_once.gif)
 
-&ensp;
 ## Acknowledge
 * Our code is heavily based on [OpenPCDet v0.5.2](https://github.com/open-mmlab/OpenPCDet). Thanks OpenPCDet Development Team for their awesome codebase.
 
 * Our pre-training 3D point cloud task is based on [ONCE Dataset](https://once-for-auto-driving.github.io/). Thanks ONCE Development Team for their inspiring data release.
 
 
-**Our Papers**: 
-- [Uni3D: A Unified Baseline for Multi-dataset 3D Object Detection](https://arxiv.org/abs/2303.06880)<br> 
-- [Bi3D: Bi-domain Active Learning for Cross-domain 3D Object Detection](https://arxiv.org/abs/2303.05886)<br>
-- [UniDA3D: Unified Domain Adaptive 3D Semantic Segmentation Pipeline](https://arxiv.org/abs/2212.10390)<br>
-
-**Demo Videos**: 
-- [Waymo Sequence-level Visualization Demo1](docs/seq_demo_waymo_bev.gif)
-- [Waymo Sequence-level Visualization Demo2](docs/seq_demo_waymo_fp.gif)
-- [nuScenes Sequence-level Visualization Demo](docs/seq_demo_nusc.gif)
-- [ONCE Sequence-level Visualization Demo](docs/seq_demo_once.gif)
-
-**Our Team**:
-
-A Team Home for Member Information and Profile, [Project Link](https://bobrown.github.io/Team_3DTrans.github.io/)
-
-## Related Projects
-- Welcome to see [SUG](https://github.com/SiyuanHuang95/SUG) for exploring the possibilities of adapting a model to multiple
-unseen domains and studying how to leverage the feature’s multi-modal information residing in a single dataset. You can also use [SUG](https://github.com/SiyuanHuang95/SUG) to obtain generalizable features by means of a single dataset, which can obtain good results on unseen domains or datasets.
-
-## Citation
-If you find this project useful in your research, please consider citing:
+## Technical Papers
 ```
-@inproceedings{,
-  title={Uni3D: A Unified Baseline for Multi-dataset 3D Object Detection},
-  author={Bo Zhang, Jiakang Yuan, Botian Shi, Tao Chen, Yikang Li, and Yu Qiao},
-  booktitle={CVPR},
-  year={2023},
-}
-```
-
-```
-@inproceedings{,
-  title={Bi3D: Bi-domain Active Learning for Cross-domain 3D Object Detection},
-  author={Jiakang Yuan, Bo Zhang, Xiangchao Yan, Tao Chen, Botian Shi, Yikang Li, and Yu Qiao},
-  booktitle={CVPR},
-  year={2023},
-}
-```
-
-```
-@article{,
-  title={UniDA3D: Unified Domain Adaptive 3D Semantic Segmentation Pipeline},
-  author={Ben Fei, Siyuan Huang, Jiakang Yuan, Botian Shi, Bo Zhang, Weidong Yang, Min Dou, and Yikang Li},
-  journal={arXiv preprint arXiv:2212.10390},
-  year={2023}
-}
-```
-
-<!-- ```
 @misc{3dtrans2023,
-    title={3DTrans: An Open-source Toolbox for Autonomous Driving-oriented Transfer Learning},
+    title={3DTrans: An Open-source Codebase for Continuous Learning towards Autonomous Driving Task},
     author={3DTrans Development Team},
     howpublished = {\url{https://github.com/PJLab-ADG/3DTrans}},
     year={2023}
 }
-``` -->
+```
+
+```
+@inproceedings{zhang2023uni3d,
+  title={Uni3D: A Unified Baseline for Multi-dataset 3D Object Detection},
+  author={Zhang, Bo and Yuan, Jiakang and Shi, Botian and Chen, Tao and Li, Yikang and Qiao, Yu},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={9253--9262},
+  year={2023}
+}
+```
+
+```
+@inproceedings{yuan2023bi3d,
+  title={Bi3D: Bi-domain Active Learning for Cross-domain 3D Object Detection},
+  author={Yuan, Jiakang and Zhang, Bo and Yan, Xiangchao and Chen, Tao and Shi, Botian and Li, Yikang and Qiao, Yu},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={15599--15608},
+  year={2023}
+}
+```
+
+```
+@article{yuan2023AD-PT,
+  title={AD-PT: Autonomous Driving Pre-Training with Large-scale Point Cloud Dataset},
+  author={Yuan, Jiakang and Zhang, Bo and Yan, Xiangchao and Chen, Tao and Shi, Botian and Li, Yikang and Qiao, Yu},
+  journal={arXiv preprint arXiv:2306.00612},
+  year={2023}
+}
+```
+
+```
+@inproceedings{huang2023sug,
+  title={SUG: Single-dataset Unified Generalization for 3D Point Cloud Classification},
+  author={Huang, Siyuan and Zhang, Bo and Shi, Botian and Gao, Peng and Li, Yikang and Li, Hongsheng},
+  booktitle={Proceedings of the 31th ACM International Conference on Multimedia},
+  year={2023}
+}
+```
